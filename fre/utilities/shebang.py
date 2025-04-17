@@ -1,13 +1,14 @@
-"""Produces the top of an sbatch script
+"""Produces the shebang of a script
 """
-""" Creates a shebang to use at the top of a script"""
 class fre_shebang:
-    """ Sets up the shebang
- \parameter shellpath The path to the shell
- \parameter shell The name of the shell being used
- \parameter echo True if the script will echo commands with -fx
-"""
+    """ Creates a shebang to use at the top of a script"""
     def __init__(self, shellpath='/bin', shell='sh', echo=True):
+        """Brief: Sets up the shebang
+        Param:
+            - shellpath The path to the shell
+            - shell The name of the shell being used
+            - echo True if the script will echo commands with -fx
+        """
         self.shellpath = shellpath
         self.shell = shell
         self.echo = echo
@@ -15,13 +16,14 @@ class fre_shebang:
             self.shebang = '#!'+shellpath+'/'+shell+' -fx'
         else:
             self.shebang = '#!'+shellpath+'/'+shell
-    """ Getter routine that returns the shebang """
     def get_shebang(self):
+        """Brief: Getter routine that returns the shebang """
         return self.shebang
-    """ Checks the shebang in this object against a reference fed into the function
- \parameter reference A reference string to check the shebang against
-"""
     def check(self, reference):
+        """Brief: Checks the shebang in this object against a reference fed into the function
+        Param:
+            - reference A reference string to check the shebang against
+        """
         if self.shebang != reference:
             print(".......... Here comes an error ..........")
             print(f"Shebang:   {self.shebang}")
