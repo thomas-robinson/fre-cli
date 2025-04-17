@@ -81,7 +81,7 @@ def checkout_create(yamlfile, platform, target, no_parallel_checkout, jobs, exec
                 os.system("mkdir -p " + src_dir)
             # if the checkout script does not exist, it is created
             if not os.path.exists(src_dir+"/checkout.sh"):
-                fre_checkout = checkout.checkout("checkout.sh",src_dir)
+                fre_checkout = checkout.checkout("checkout.sh",src_dir,pc)
                 fre_checkout.writeCheckout(model_yaml.compile.getCompileYaml(),jobs,pc)
                 fre_checkout.finish(model_yaml.compile.getCompileYaml(),pc)
                 # Make checkout script executable
@@ -110,9 +110,11 @@ def checkout_create(yamlfile, platform, target, no_parallel_checkout, jobs, exec
             src_dir = platform["modelRoot"] + "/" + fremake_yaml["experiment"] + "/src"
             bld_dir = platform["modelRoot"] + "/" + fremake_yaml["experiment"] + "/exec"
             tmp_dir = "tmp/"+platform_name
+            if pc:
+                print ("Parallel checkout not supported in container")
             fre_checkout = checkout.checkoutForContainer("checkout.sh", src_dir, tmp_dir)
-            fre_checkout.writeCheckout(model_yaml.compile.getCompileYaml(),jobs,pc)
-            fre_checkout.finish(model_yaml.compile.getCompileYaml(),pc)
+            fre_checkout.writeCheckout(model_yaml.compile.getCompileYaml(),jobs,pc="")
+            fre_checkout.finish(model_yaml.compile.getCompileYaml(),pc="")
             fre_logger.info("\nCheckout script created at " + tmp_dir + "/checkout.sh" + "\n")
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 import os
 import subprocess
+from ...utilities import shebang
 
 ## TODO: Add parallelizations using () and simplify
 def writeRepo(file,repo,component,srcDir,branch,add,multi,jobs,pc):
@@ -58,7 +59,7 @@ class checkout():
     """
     Brief: Class to create the checkout script
     """
-    def __init__(self,fname,srcDir):
+    def __init__(self,fname,srcDir,pc):
         """
         Brief: Opens the checkout script with the specified name
         Param:
@@ -72,7 +73,12 @@ class checkout():
         ##TODO: Force checkout
         os.system("rm -rf "+self.src+"/*")
         self.checkoutScript = open(self.src+"/"+fname, 'w')
-        self.checkoutScript.write("#!/bin/sh -f \n")
+        if pc:
+            sheb=shebang.fre_shebang(shell="bash")
+        else:
+            sheb=shebang.fre_shebang()
+        print ("sheb = "+sheb.get_shebang())
+        self.checkoutScript.write(sheb.get_shebang()+"\n")
         self.checkoutScript.write("export GIT_TERMINAL_PROMPT=0 \n")
     def writeCheckout(self,y,jobs,pc):
         """
